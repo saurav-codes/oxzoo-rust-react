@@ -8,7 +8,7 @@ runtime = "rust"
 framework = "generic"
 package_manager = ""
 port = 9114
-environment_file = "/etc/ox/apps/oxzoo-rust-react.env"
+environment_file = "/etc/ox/projects/oxzoo-rust-react.env"
 
 required_packages = ["nodejs", "rustc", "cargo"]
 
