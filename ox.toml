@@ -1,0 +1,40 @@
+# ox deploy manifest for oxzoo-rust-react.
+# cargo compiles ./target/release/server (install hook), npm builds the SPA
+# into dist/, and nginx serves dist/ statically while proxying /api and /health.
+
+name = "oxzoo-rust-react"
+branch = "main"
+runtime = "rust"
+framework = "generic"
+package_manager = ""
+port = 9114
+environment_file = "/etc/ox/apps/oxzoo-rust-react.env"
+
+required_packages = ["nodejs", "rustc", "cargo"]
+
+[[apt_sources]]
+name = "nodesource"
+url = "https://deb.nodesource.com/node_22.x"
+suite = "nodistro"
+components = ["main"]
+key_url = "https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key"
+
+[frontend]
+dist = "dist"
+api_paths = ["/api", "/health"]
+
+[[processes]]
+name = "web"
+command = "./target/release/server"
+readiness = "http://127.0.0.1:{port}/health"
+
+[deploy]
+# Two hook lines; each element runs as its own bash -c line in the release dir.
+install = ["cargo build --release", "npm install"]
+build = ["npm", "run", "build"]
+health_url = "http://127.0.0.1:9114/health"
+
+[[domains]]
+name = "rust-react.oxzoo.sorv.dev"
+tls = false
+spa = true
