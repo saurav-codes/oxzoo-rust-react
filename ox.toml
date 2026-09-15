@@ -36,5 +36,5 @@ health_url = "http://127.0.0.1:9114/health"
 
 [[domains]]
 name = "rust-react.oxzoo.sorv.dev"
-tls = false
+tls = true
 spa = true
