@@ -21,7 +21,7 @@ One variable, two paths:
 - **Runtime path (API):** `src/main.rs` reads `std::env::var("GREETING_TAG")` at startup and refuses to boot without it (`.expect("GREETING_TAG must be set")`), so a missing value fails loudly at process start. A restart with a new value changes the API line.
 - **Build-time path (SPA):** `vite.config.js` sets `envPrefix: ["GREETING_", "VITE_"]`, so any `GREETING_*` variable in the build environment is exposed to `import.meta.env`. `client/src/App.jsx` renders `import.meta.env.GREETING_TAG`, which is baked into the bundle during `npm run build`. No duplicated `VITE_GREETING_TAG` is needed.
 
-**`PORT`** is injected by the platform into the process environment (see `[deploy]` hooks and `environment_file`); `src/main.rs` reads it with `std::env::var("PORT")` and the process command stays `./target/release/server` with no port in it.
+**`PORT`** is injected by the platform into the process environment (see `[deploy]` hooks and the project's env file); `src/main.rs` reads it with `std::env::var("PORT")` and the process command stays `./target/release/server` with no port in it.
 
 **`cargo build --release`** compiles the release binary into `./target/release/server` inside the release directory during the install hooks; the systemd `web` process then just runs that binary. Build hooks run as the unprivileged project user, so nothing is installed globally; the frontend build needs `nodejs` (NodeSource 22 via `[[apt_sources]]`), the backend needs `rustc` and `cargo`, all from apt.
 
@@ -29,7 +29,7 @@ One variable, two paths:
 
 ## Deploy with ox
 
-1. Add the repo in the ox dashboard: paste the clone URL `https://github.com/saurav-codes/oxzoo-rust-react.git`.
+1. Add the repo in the ox dashboard: paste the clone URL `git@github.com:saurav-codes/oxzoo-rust-react.git`.
 2. In the Environment editor, set `GREETING_TAG` (for example `v1`).
 3. Press **Deploy**. ox runs `cargo build --release`, then `npm install`, then `npm run build`, starts `./target/release/server`, and waits for `http://127.0.0.1:9114/health` to return `ok`.
 
