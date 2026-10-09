@@ -1,6 +1,8 @@
 # oxzoo-rust-react
 
-An official ox deploy example: a Rust 2021 API built with Axum 0.8, fronted by a React 18 single-page app built with Vite 5, deployed to a single Ubuntu VPS by the [ox](https://github.com/saurav-codes/vps-ctl) control plane from one `ox.toml` manifest at the repo root. ox runs `cargo build --release` and `npm install` as install hooks, builds the SPA into `dist/`, starts the compiled `./target/release/server` binary as a systemd process bound to `127.0.0.1:9114`, and configures nginx to serve `dist/` statically while proxying only `/api` and `/health` to the Rust process.
+Deployed with [ox](https://deploywithox.com): deploy a repo to your own server with one command, no Docker. [Docs](https://deploywithox.com/docs) · [Guide for this stack](https://deploywithox.com/docs/guides/rust)
+
+An official ox deploy example: a Rust 2021 API built with Axum 0.8, fronted by a React 18 single-page app built with Vite 5, deployed to a single Ubuntu VPS by the [ox](https://deploywithox.com) control plane from one `ox.toml` manifest at the repo root. ox runs `cargo build --release` and `npm install` as install hooks, builds the SPA into `dist/`, starts the compiled `./target/release/server` binary as a systemd process bound to `127.0.0.1:9114`, and configures nginx to serve `dist/` statically while proxying only `/api` and `/health` to the Rust process.
 
 ## Stack
 
